@@ -28,8 +28,10 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 ## Resources
+Youtube Link of Tutorial
 https://www.youtube.com/watch?v=z4JUm0Bq9AM
 </br>
 https://coursetro.com/posts/code/154/Angular-6-Tutorial.html
 </br>
 https://material.io/tools/icons/?style=baseline
+
