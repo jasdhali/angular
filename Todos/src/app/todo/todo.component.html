@@ -35,13 +35,18 @@
     </ul>
     -->
     <ul class="todo-list">
-      <li *ngFor="let todo of todos" [ngClass]="{completed: todo.isDone}">
+      <li *ngFor="let todo of todos" [ngClass]="{completed: todo.isDone, editing: todo.editing}">
         <div class="view">
           <input class="toggle" type="checkbox" [checked]="todo.isDone">
-          <label>{{todo.title}}</label>
-          <button class="destroy"></button>
+          <label (dblclick)="todo.editing = true">{{todo.title}}</label>
+          <button class="destroy" (click)="destroyTodo(todo)"></button>
         </div>
-        <input class="edit" value="{{todo.title}}">
+        <input class="edit"
+         #updatedTodo
+         [value]="todo.title"
+         (blur)="updateTodo(todo, updatedTodo.value)"
+         (keyup.escape)="todo.editing = false"
+         (keyup.enter)="updateTodo(todo, updatedTodo.value)">
       </li>
     </ul>
   </section>
@@ -54,16 +59,16 @@
     <!-- Remove this if you don't implement routing -->
     <ul class="filters">
       <li>
-        <a class="selected" href="#/">All</a>
-      </li>
-      <li>
-        <a href="#/active">Active</a>
-      </li>
-      <li>
-        <a href="#/completed">Completed</a>
-      </li>
-    </ul>
+          <a [routerLink]="['/all']" [class.selected]="path === 'all'">All</a>
+        </li>
+        <li>
+          <a [routerLink]="['/active']" [class.selected]="path === 'active'">Active</a>
+        </li>
+        <li>
+          <a [routerLink]="['/completed']" [class.selected]="path === 'completed'">Completed</a>
+        </li>    
+     </ul>
     <!-- Hidden if no completed items are left ↓ -->
-    <button class="clear-completed">Clear completed</button>
+    <button class="clear-completed" (click)="clearCompleted()">Clear completed</button>
   </footer>
 </section>

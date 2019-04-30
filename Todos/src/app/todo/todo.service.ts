@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 
-const TODOS = [
-  { title: 'Install Angular CLI' ,   idDone: true   } ,
-  { title: 'Style app' ,   idDone: true   } ,
-  { title: 'Finish srvice functionality' ,   idDone: false   } ,
-  { title: 'Setup API' ,   idDone: false   } 
+let TODOS = [
+  { title: 'Install Angular CLI' ,   isDone: true   } ,
+  { title: 'Style app' ,   isDone: true   } ,
+  { title: 'Finish srvice functionality' ,   isDone: false   } ,
+  { title: 'Setup API' ,   isDone: false   } 
 ];
 
 @Injectable({
@@ -15,8 +15,52 @@ const TODOS = [
 export class TodoService {
 
   constructor() { }
+  
+  get(query = '') {
+  return new Promise(resolve => {
+    let data;
 
-  get () {
-    return new Promise( resolve => resolve(TODOS) );
+    if (query === 'completed' || query === 'active'){
+      const isCompleted = query === 'completed';
+      data = TODOS.filter(todo => todo.isDone === isCompleted);
+    } else {
+      data = TODOS;
+    }
+
+    resolve(data);
+  });
+}
+
+  public add(data) {
+  return new Promise(resolve => {
+    TODOS.push(data);
+    resolve(data);
+  });
+}
+
+put(changed) {
+    return new Promise(resolve => {
+      const index = TODOS.findIndex(todo => todo === changed);
+      TODOS[index].title = changed.title;
+      resolve(changed);
+    });
   }
+
+delete(selected) {
+  return new Promise(resolve => {
+    const index = TODOS.findIndex(todo => todo === selected);
+    TODOS.splice(index, 1);
+    resolve(true);
+  });
+}
+
+
+
+deleteCompleted() {
+  return new Promise(resolve => {
+    TODOS.filter(todo => !todo.isDone);
+    resolve(TODOS);
+  });
+ }
+
 }

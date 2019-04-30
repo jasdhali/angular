@@ -10,7 +10,6 @@ const routes: Routes = [
   { path: ':status', component: TodoComponent },
   { path: '**', redirectTo: '/all' }
 ];
-
 @NgModule({
   declarations: [
     AppComponent,
